@@ -117,7 +117,6 @@ async def on_message(message):
             activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
         db = json.loads(initial_push)
         await message.channel.send("All initial values loaded")
-        db.sync()
         db.close()
 
     if message.content.startswith("!pro all"):
