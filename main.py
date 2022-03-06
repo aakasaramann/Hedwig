@@ -128,6 +128,13 @@ async def on_message(message):
         db.sync()
         db.close()
 
+    if message.content.startswith("!pro clear"):
+        db = shelve.open("BRProgressDB", writeback=True)
+        db.clear()
+        await message.channel.send(dict(db))
+        db.sync()
+        db.close()
+
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
