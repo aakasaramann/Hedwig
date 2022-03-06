@@ -87,7 +87,7 @@ async def on_message(message):
 
         for username in db[channel]:
             user = await client.fetch_user(int(username))
-            brtable.append([user.name, float(db[channel][username])])
+            brtable.append([user.name, db[channel][username]])
             time.sleep(0.2)
 
         brtable.sort(key=lambda x: x[1], reverse=True)
@@ -116,6 +116,7 @@ async def on_message(message):
         await client.change_presence(
             activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
         init = dict(json.loads(initial_push))
+        print(init)
         for key in init:
             db[key] = init[key]
         await message.channel.send("All initial values loaded")
