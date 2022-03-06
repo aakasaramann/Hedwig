@@ -90,7 +90,7 @@ async def on_message(message):
             brtable.append([user.name, db[channel][username]])
             time.sleep(0.2)
 
-        brtable.sort(key=lambda x: x[1], reverse=True)
+        # brtable.sort(key=lambda x: x[1], reverse=True)
         # brtable = sorted(brtable, key = lambda x: x[1],reverse=True)
         output = t2a(header=["Username", "% Progress"], body=brtable, style=PresetStyle.thin_compact)
         await message.channel.send(f"```{output}```")
