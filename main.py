@@ -2,7 +2,6 @@ import nextcord
 import time
 from table2ascii import table2ascii as t2a, PresetStyle
 import shelve
-from keep_online import keep_alive
 from itertools import cycle
 from nextcord.ext import tasks
 
@@ -109,17 +108,12 @@ async def on_message(message):
         db.sync()
         db.close()
 
-
-
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
     await client.get_channel(931066517360115753).send("Beep. Boop. Beep. I am online. :owl:  *hoots*")
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                             name='Telugu Lit Soc BRs'))
-
-
-keep_alive()
 
 # my_secret = os.environ['token']
 client.run("OTI3MTkxNTU2ODkxNTA0Njkx.YdGobQ.nY-q30qcvBA5rhpDpODV_RVMxj4")
