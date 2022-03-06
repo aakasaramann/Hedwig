@@ -5,6 +5,7 @@ import shelve
 from itertools import cycle
 from nextcord.ext import tasks
 import os
+import json
 
 intents = nextcord.Intents.default()
 
@@ -105,6 +106,18 @@ async def on_message(message):
             activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
         db[channel].pop(author, None)
         await message.channel.send(f"{msg_author}'s progress for this BR is deleted.")
+
+        db.sync()
+        db.close()
+
+    if message.content.startswith("!pro push "):
+        initial_push = message.content[10:]
+        db = shelve.open("BRProgressDB", writeback=True)
+        await client.change_presence(
+            activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
+        db[channel].pop(author, None)
+        db = dict(json.loads(initial_push))
+        await message.channel.send("All initial values loaded")
 
         db.sync()
         db.close()
