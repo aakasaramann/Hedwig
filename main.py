@@ -118,8 +118,6 @@ async def on_message(message):
         db[channel].pop(author, None)
         db = json.loads(initial_push)
         await message.channel.send("All initial values loaded")
-
-        db.sync()
         db.close()
 
     if message.content.startswith("!pro all"):
