@@ -4,6 +4,7 @@ from table2ascii import table2ascii as t2a, PresetStyle
 import shelve
 from itertools import cycle
 from nextcord.ext import tasks
+import os
 
 intents = nextcord.Intents.default()
 
@@ -115,5 +116,5 @@ async def on_ready():
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                             name='Telugu Lit Soc BRs'))
 
-# my_secret = os.environ['token']
-client.run("OTI3MTkxNTU2ODkxNTA0Njkx.YdGobQ.-R5CkMylmfW6UOA8sBap1V2ybLs")
+my_secret = os.environ['token']
+client.run(my_secret)
