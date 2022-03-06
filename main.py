@@ -115,8 +115,11 @@ async def on_message(message):
         db = shelve.open("BRProgressDB", writeback=True)
         await client.change_presence(
             activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
-        db = json.loads(initial_push)
+        init = json.loads(initial_push)
+        for key, value in init:
+            db[key] = value
         await message.channel.send("All initial values loaded")
+        db.sync()
         db.close()
 
     if message.content.startswith("!pro all"):
