@@ -116,8 +116,8 @@ async def on_message(message):
         await client.change_presence(
             activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
         init = dict(json.loads(initial_push))
-        for key, value in init:
-            db[key] = value
+        for key in init:
+            db[key] = init[key]
         await message.channel.send("All initial values loaded")
         db.sync()
         db.close()
