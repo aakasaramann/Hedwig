@@ -1,8 +1,8 @@
 aiosignal==1.2.0
 async-timeout==4.0.2
 multidict==6.0.2
-nextcord==2.0.0a8
-pip==22.0.3
+nextcord==2.0.0a10
+pip==22.0.4
 requests==2.27.1
 setuptools==60.9.3
 table2ascii==0.2.0
