@@ -110,24 +110,24 @@ async def on_message(message):
         db.sync()
         db.close()
 
-    # if message.content.startswith("!pro push "):
-    #     initial_push = message.content[10:]
-    #     db = shelve.open("BRProgressDB", writeback=True)
-    #     await client.change_presence(
-    #         activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
-    #     init = dict(json.loads(initial_push))
-    #     print(init)
-    #     for key in init:
-    #         db[key] = init[key]
-    #     await message.channel.send("All initial values loaded")
-    #     db.sync()
-    #     db.close()
+    if message.content.startswith("!pro push "):
+        initial_push = message.content[10:]
+        db = shelve.open("BRProgressDB", writeback=True)
+        await client.change_presence(
+            activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
+        init = dict(json.loads(initial_push))
+        print(init)
+        for key in init:
+            db[key] = init[key]
+        await message.channel.send("All initial values loaded")
+        db.sync()
+        db.close()
     #
-    # if message.content.startswith("!pro all"):
-    #     db = shelve.open("BRProgressDB", writeback=True)
-    #     await message.channel.send(dict(db))
-    #     db.sync()
-    #     db.close()
+    if message.content.startswith("!pro all"):
+        db = shelve.open("BRProgressDB", writeback=True)
+        await message.channel.send(dict(db))
+        db.sync()
+        db.close()
     #
     # if message.content.startswith("!pro clear"):
     #     db = shelve.open("BRProgressDB", writeback=True)
