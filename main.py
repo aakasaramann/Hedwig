@@ -4,8 +4,11 @@ from itertools import cycle
 
 import nextcord
 import pymongo
+import jedi
+
 from nextcord.ext import tasks
 from table2ascii import table2ascii as t2a, PresetStyle
+import flask
 
 intents = nextcord.Intents.default()
 client = nextcord.Client(intents=intents)
