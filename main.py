@@ -17,6 +17,7 @@ client = nextcord.Client(intents=intents)
 tenor_str = "https://tenor.com/view/"
 send_gif = f"{tenor_str}harry-potter-hedwig-4privet-drive-deathly-hallows-battle-of-the-seven-potters-gif-14134385"
 receive_gif = f"{tenor_str}youve-got-mail-mail-get-the-mail-package-what-a-hoot-gif-18029581"
+hot_damn_gif = f"{tenor_str}captain-ray-holt-hot-damn-hot-damn-brooklyn-nine-nine-gif-12390401"
 
 # status variable changing status of discord bot
 status = cycle(['with Python', 'JetHub'])
@@ -30,6 +31,16 @@ try:
     print(cluster.server_info())  # prints sever connection status
 except Exception:
     print("Unable to connect to the server.")
+
+
+def change_status_to_default():
+    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
+                                                            name='BR progress on Book Servers'))
+
+
+def change_status_to_command(username):
+    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening,
+                                                            name=f"{username}'s command"))
 
 
 @client.event
@@ -69,6 +80,7 @@ async def on_message(message):
 
         if int(progress_msg) > 100:
             await message.channel.send("Progress should be less than are equal to 100")
+            change_status_to_default()
             return
 
         try:
@@ -76,6 +88,7 @@ async def on_message(message):
                 pass
         except:
             await message.channel.send("Progress should be a number")
+            change_status_to_default()
             return
 
         if int(progress_msg) == 100:
@@ -99,14 +112,10 @@ async def on_message(message):
                 f"br-details.{author_id_str}.BRprogress": progress_msg,
                 f"br-details.{author_id_str}.username": author_name
             }}
-            result_update = collection.update_one(filter=search_query, update=update_query)
-            # print(result_update.matched_count)
-            # print(result_update.modified_count)
+            collection.update_one(filter=search_query, update=update_query)
 
         await message.channel.send(f"{author_name}'s progress for this buddy-read is set to {progress_msg}%")
-
-        await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
-                                                                name='BR progress on Book Servers'))
+        change_status_to_default()
 
     if message.content.startswith("!br status"):
         await client.change_presence(
@@ -125,6 +134,7 @@ async def on_message(message):
             brtable_dict = collection.find(search_query)[0]
         except:
             await message.channel.send("Buddy Read Data for this channel doesn't exist")
+            change_status_to_default()
             return
 
         brtable = []
@@ -138,19 +148,20 @@ async def on_message(message):
         # brtable = sorted(brtable, key = lambda x: x[1],reverse=True)
         output = t2a(header=["Username", "% Progress"], body=brtable, style=PresetStyle.thin_compact)
         await message.channel.send(f"```{output}```")
+        change_status_to_default()
 
-        await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
-                                                                name='BR progress on Book Servers'))
+    # if message.content.startswith("!help"):  # HELPPPPPP!!!
+    #     pass
 
-    # if message.content.startswith("!br del"):
-    #     db = shelve.open("BRProgressDB", writeback=True)
-    #     await client.change_presence(
-    #         activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
-    #     db[channel_id_str].pop(author_id_str, None)
-    #     await message.channel.send(f"{author_name}'s progress for this BR is deleted.")
-    #
-    #     db.sync()
-    #     db.close()
+    if message.content.startswith("!br del"):
+        search_query = {f"br-details.{author_id_str}": {}}  # Wrong Query. Need to work on this bit.
+        try:
+            collection.delete_one(search_query)
+        except
+            print("You need to update progress first before deleting it.")
+            await message.channel.send(hot_damn_gif)
+        change_status_to_default()
+
 
 @client.event
 async def on_ready():
@@ -158,6 +169,7 @@ async def on_ready():
     await client.get_channel(931066517360115753).send("Beep. Boop. Beep. I am online. :owl:  *hoots*")
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                             name='BR progress on Book Servers'))
+
 
 my_secret = os.environ['token']
 client.run(my_secret)
