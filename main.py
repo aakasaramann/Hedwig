@@ -1,5 +1,4 @@
 import os
-import shelve
 import time
 from itertools import cycle
 
@@ -129,15 +128,15 @@ async def on_message(message):
         await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                                 name='BR progress on Book Servers'))
 
-    if message.content.startswith("!br del"):
-        db = shelve.open("BRProgressDB", writeback=True)
-        await client.change_presence(
-            activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
-        db[channel_id_str].pop(author_id_str, None)
-        await message.channel.send(f"{author_name}'s progress for this BR is deleted.")
-
-        db.sync()
-        db.close()
+    # if message.content.startswith("!br del"):
+    #     db = shelve.open("BRProgressDB", writeback=True)
+    #     await client.change_presence(
+    #         activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f"{message.author.name}'s command"))
+    #     db[channel_id_str].pop(author_id_str, None)
+    #     await message.channel.send(f"{author_name}'s progress for this BR is deleted.")
+    #
+    #     db.sync()
+    #     db.close()
 
 @client.event
 async def on_ready():
