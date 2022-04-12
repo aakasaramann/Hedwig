@@ -8,3 +8,6 @@ setuptools==60.9.3
 table2ascii==0.2.0
 wheel==0.37.1
 pymongo~=4.1.0
+jedi
+flask
+dnspython
