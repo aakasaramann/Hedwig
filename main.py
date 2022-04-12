@@ -67,6 +67,17 @@ async def on_message(message):
             pg = temp.split('/')
             progress_msg = round((int(pg[0]) / int(pg[1])) * 100, 2)
 
+        if int(progress_msg) > 100:
+            await message.channel.send("Progress should be less than are equal to 100")
+            return
+
+        try:
+            if int(progress_msg) >= 100:
+                pass
+        except:
+            await message.channel.send("Progress should be a number")
+            return
+
         if int(progress_msg) == 100:
             await message.channel.send("Well Done!")
             time.sleep(2)
