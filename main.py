@@ -174,7 +174,8 @@ async def on_message(message):
                 brprogress_var = brtable_dict["br-details"][user_id]['BRprogress']
                 search_query = {f"br-details.{author_id_str}": f"[{user.name}, {brprogress_var}]" }  # Wrong Query. Need to work on this bit.
                 try:
-                    collection.delete_one(search_query)
+                    result = collection.delete(search_query)
+                    print(result)
                     await message.channel.send("Your progress for this BR is deleted.")
                 except:
                     await message.channel.send("You need to update progress first before deleting it.")
