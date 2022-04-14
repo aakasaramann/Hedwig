@@ -80,7 +80,7 @@ async def on_message(message):
 
         if int(progress_msg) > 100:
             await message.channel.send("Progress should be less than are equal to 100")
-            change_status_to_default()
+            await change_status_to_default()
             return
 
         try:
@@ -88,7 +88,7 @@ async def on_message(message):
                 pass
         except:
             await message.channel.send("Progress should be a number")
-            change_status_to_default()
+            await change_status_to_default()
             return
 
         if int(progress_msg) == 100:
@@ -115,7 +115,7 @@ async def on_message(message):
             collection.update_one(filter=search_query, update=update_query)
 
         await message.channel.send(f"{author_name}'s progress for this buddy-read is set to {progress_msg}%")
-        change_status_to_default()
+        await change_status_to_default()
 
     if message.content.startswith("!br status"):
         await client.change_presence(
@@ -134,7 +134,7 @@ async def on_message(message):
             brtable_dict = collection.find(search_query)[0]
         except:
             await message.channel.send("Buddy Read Data for this channel doesn't exist")
-            change_status_to_default()
+            await change_status_to_default()
             return
 
         brtable = []
@@ -148,7 +148,7 @@ async def on_message(message):
         # brtable = sorted(brtable, key = lambda x: x[1],reverse=True)
         output = t2a(header=["Username", "% Progress"], body=brtable, style=PresetStyle.thin_compact)
         await message.channel.send(f"```{output}```")
-        change_status_to_default()
+        await change_status_to_default()
 
     # if message.content.startswith("!help"):  # HELPPPPPP!!!
     #     pass
@@ -157,10 +157,11 @@ async def on_message(message):
         search_query = {f"br-details.{author_id_str}": {}}  # Wrong Query. Need to work on this bit.
         try:
             collection.delete_one(search_query)
+            await message.channel.send("Your progress for this BR is deleted.")
         except:
-            print("You need to update progress first before deleting it.")
+            await message.channel.send("You need to update progress first before deleting it.")
             await message.channel.send(hot_damn_gif)
-        change_status_to_default()
+        await change_status_to_default()
 
 
 @client.event
