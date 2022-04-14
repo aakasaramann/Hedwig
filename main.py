@@ -153,34 +153,34 @@ async def on_message(message):
     # if message.content.startswith("!help"):  # HELPPPPPP!!!
     #     pass
 
-    if message.content.startswith("!br del"):
-
-        await client.change_presence(
-            activity=nextcord.Activity(
-                type=nextcord.ActivityType.listening,
-                name=f"{message.author.name}'s command"))
-
-        search_query = {"_id": channel_id}
-        try:
-            brtable_dict = collection.find(search_query)[0]
-        except:
-            await message.channel.send("Buddy Read Data for this channel doesn't exist")
-            await change_status_to_default()
-            return
-
-        for user_id in brtable_dict["br-details"]:
-            user = await client.fetch_user(int(user_id))
-            if user.name == author_name:
-                brprogress_var = brtable_dict["br-details"][user_id]['BRprogress']
-                search_query = {f"br-details.{author_id_str}": f"[{user.name}, {brprogress_var}]" }  # Wrong Query. Need to work on this bit.
-                try:
-                    result = collection.delete(search_query)
-                    await message.channel.send(result)
-                    await message.channel.send("Your progress for this BR is deleted.")
-                except:
-                    await message.channel.send("You need to update progress first before deleting it.")
-                    await message.channel.send(hot_damn_gif)
-        await change_status_to_default()
+    # if message.content.startswith("!br del"):
+    #
+    #     await client.change_presence(
+    #         activity=nextcord.Activity(
+    #             type=nextcord.ActivityType.listening,
+    #             name=f"{message.author.name}'s command"))
+    #
+    #     search_query = {"_id": channel_id}
+    #     try:
+    #         brtable_dict = collection.find(search_query)[0]
+    #     except:
+    #         await message.channel.send("Buddy Read Data for this channel doesn't exist")
+    #         await change_status_to_default()
+    #         return
+    #
+    #     for user_id in brtable_dict["br-details"]:
+    #         user = await client.fetch_user(int(user_id))
+    #         if user.name == author_name:
+    #             brprogress_var = brtable_dict["br-details"][user_id]['BRprogress']
+    #             search_query = {f"br-details.{author_id_str}": f"[{user.name}, {brprogress_var}]" }  # Wrong Query. Need to work on this bit.
+    #             try:
+    #                 result = collection.delete(search_query)
+    #                 await message.channel.send(result)
+    #                 await message.channel.send("Your progress for this BR is deleted.")
+    #             except:
+    #                 await message.channel.send("You need to update progress first before deleting it.")
+    #                 await message.channel.send(hot_damn_gif)
+    #     await change_status_to_default()
 
 
 @client.event
