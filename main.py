@@ -33,14 +33,14 @@ except Exception:
     print("Unable to connect to the server.")
 
 
-def change_status_to_default():
+async def change_status_to_default():
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                             name='BR progress on Book Servers'))
 
-
-def change_status_to_command(username):
-    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening,
-                                                            name=f"{username}'s command"))
+#
+# async def change_status_to_command(username):
+#     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening,
+#                                                             name=f"{username}'s command"))
 
 
 @client.event
