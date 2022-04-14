@@ -157,7 +157,7 @@ async def on_message(message):
         search_query = {f"br-details.{author_id_str}": {}}  # Wrong Query. Need to work on this bit.
         try:
             collection.delete_one(search_query)
-        except
+        except:
             print("You need to update progress first before deleting it.")
             await message.channel.send(hot_damn_gif)
         change_status_to_default()
