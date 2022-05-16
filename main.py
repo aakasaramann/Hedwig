@@ -11,9 +11,7 @@ from table2ascii import table2ascii as t2a, PresetStyle
 import flask
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import time
 
 #selenium chrome driver for emulating button-clicking
 chrome_options = webdriver.ChromeOptions()
