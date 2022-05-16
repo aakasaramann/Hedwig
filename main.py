@@ -197,10 +197,13 @@ async def on_message(message):
     if message.content.startswith("!wake up mavayya"):
         await message.channel.send("Mavayya: Lesthanlera oka 5 min aagaraa babu.. goppodivi ra babu!")
         driver.get(REPLIT_URL)
-        run_button = driver.find_element(by=By.XPATH,
+        try:
+            run_button = driver.find_element(by=By.XPATH,
                                          value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
-        run_button.click()
-        await message.channel.send("Mavayya oka 5 min lo lesthadu..")
+            run_button.click()
+            await message.channel.send("Mavayya oka 5 min lo lesthadu..")
+        except:
+            await message.channel.send("Bot crashed")
         time.sleep(600)
         await message.channel.send("Mavayya lechado ledo check chey okasari..")
         driver.quit()
