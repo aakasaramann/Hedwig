@@ -201,6 +201,7 @@ async def on_message(message):
     if message.content.startswith("!wake up mavayya"):
         await message.channel.send("Mavayya: Lesthanlera oka 5 min aagaraa babu.. goppodivi ra babu!")
         driver.get(REPLIT_URL)
+        print(driver.page_source)
         run_button = driver.find_element(by=By.XPATH,
                                          value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
         run_button.click()
