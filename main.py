@@ -11,6 +11,7 @@ from table2ascii import table2ascii as t2a, PresetStyle
 import flask
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 #selenium chrome driver for emulating button-clicking
@@ -19,7 +20,9 @@ chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+s = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+driver = webdriver.Chrome(service=s, options=chrome_options)
+# driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
 REPLIT_URL = os.environ['REPLIT_URL']
 
 intents = nextcord.Intents.default()
