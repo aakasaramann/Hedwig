@@ -11,3 +11,4 @@ pymongo~=4.1.0
 jedi
 flask
 dnspython
+selenium
