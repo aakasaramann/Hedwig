@@ -11,9 +11,7 @@ from table2ascii import table2ascii as t2a, PresetStyle
 import flask
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import time
 
 #selenium chrome driver for emulating button-clicking
 chrome_options = webdriver.ChromeOptions()
@@ -203,7 +201,8 @@ async def on_message(message):
                                          value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
         run_button.click()
         await message.channel.send("Mavayya oka 5 min lo lesthadu..")
-        time.sleep(120)
+        time.sleep(600)
+        await message.channel.send("Mavayya lechado ledo check chey okasari..")
         driver.quit()
 
 
