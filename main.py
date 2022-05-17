@@ -10,21 +10,21 @@ from nextcord.ext import tasks
 from table2ascii import table2ascii as t2a, PresetStyle
 import flask
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.common.by import By
 
 #selenium chrome driver for emulating button-clicking
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_experimental_option("detach", True)
-s = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
-driver = webdriver.Chrome(service=s, options=chrome_options)
-# driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
-REPLIT_URL = os.environ['REPLIT_URL']
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--disable-dev-shm-usage")
+# chrome_options.add_argument("--no-sandbox")
+# chrome_options.add_experimental_option("detach", True)
+# s = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+# driver = webdriver.Chrome(service=s, options=chrome_options)
+# # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+# REPLIT_URL = os.environ['REPLIT_URL']
 
 intents = nextcord.Intents.default()
 client = nextcord.Client(intents=intents)
@@ -197,18 +197,18 @@ async def on_message(message):
     #                 await message.channel.send("You need to update progress first before deleting it.")
     #                 await message.channel.send(hot_damn_gif)
     #     await change_status_to_default()
-
-    if message.content.startswith("!wake up mavayya"):
-        await message.channel.send("Mavayya: Lesthanlera oka 5 min aagaraa babu.. goppodivi ra babu!")
-        driver.get(REPLIT_URL)
-        print(driver.page_source)
-        run_button = driver.find_element(by=By.XPATH,
-                                         value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
-        run_button.click()
-        await message.channel.send("Mavayya oka 5 min lo lesthadu..")
-        time.sleep(600)
-        await message.channel.send("Mavayya lechado ledo check chey okasari..")
-        driver.quit()
+    #
+    # if message.content.startswith("!wake up mavayya"):
+    #     await message.channel.send("Mavayya: Lesthanlera oka 5 min aagaraa babu.. goppodivi ra babu!")
+    #     driver.get(REPLIT_URL)
+    #     print(driver.page_source)
+    #     run_button = driver.find_element(by=By.XPATH,
+    #                                      value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
+    #     run_button.click()
+    #     await message.channel.send("Mavayya oka 5 min lo lesthadu..")
+    #     time.sleep(600)
+    #     await message.channel.send("Mavayya lechado ledo check chey okasari..")
+    #     driver.quit()
 
 
 @client.event
