@@ -2,16 +2,13 @@ import os
 import time
 from itertools import cycle
 
-import nextcord
+import discord
 import pymongo
-import jedi
-
-from nextcord.ext import tasks
+from discord.ext import tasks
 from table2ascii import table2ascii as t2a, PresetStyle
-import flask
 
-intents = nextcord.Intents.default()
-client = nextcord.Client(intents=intents)
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
 
 # gif variables
 tenor_str = "https://tenor.com/view/"
@@ -34,13 +31,8 @@ except Exception:
 
 
 async def change_status_to_default():
-    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                             name='BR progress on Book Servers'))
-
-#
-# async def change_status_to_command(username):
-#     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening,
-#                                                             name=f"{username}'s command"))
 
 
 @client.event
@@ -51,14 +43,13 @@ async def on_ready():
 
 @tasks.loop(seconds=300)
 async def change_status():
-    await client.change_presence(activity=nextcord.Game(next(status)))
+    await client.change_presence(activity=discord.Game(next(status)))
 
 
 @client.event
 async def on_message(message):
     author_name = message.author.name
     channel_id = message.channel.id
-    channel_id_str = str(channel_id)
     author_id = message.author.id
     author_id_str = str(author_id)
 
@@ -67,8 +58,8 @@ async def on_message(message):
 
     if message.content.startswith("!br update "):
         await client.change_presence(
-            activity=nextcord.Activity(
-                type=nextcord.ActivityType.listening,
+            activity=discord.Activity(
+                type=discord.ActivityType.listening,
                 name=f"{message.author.name}'s command"))
 
         progress_msg = message.content[11:]
@@ -119,8 +110,8 @@ async def on_message(message):
 
     if message.content.startswith("!br status"):
         await client.change_presence(
-            activity=nextcord.Activity(
-                type=nextcord.ActivityType.listening,
+            activity=discord.Activity(
+                type=discord.ActivityType.listening,
                 name=f"{message.author.name}'s command"))
 
         msg = await message.channel.send(send_gif)
@@ -144,8 +135,6 @@ async def on_message(message):
             brtable.append([user.name, brprogress_var])
             time.sleep(0.2)
 
-        # brtable.sort(key=lambda x: x[1], reverse=True)
-        # brtable = sorted(brtable, key = lambda x: x[1],reverse=True)
         output = t2a(header=["Username", "% Progress"], body=brtable, style=PresetStyle.thin_compact)
         await message.channel.send(f"```{output}```")
         await change_status_to_default()
@@ -187,7 +176,7 @@ async def on_message(message):
 async def on_ready():
     print(f"We have logged in as {client.user}")
     await client.get_channel(931066517360115753).send("Beep. Boop. Beep. I am online. :owl:  *hoots*")
-    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                             name='BR progress on Book Servers'))
 
 
