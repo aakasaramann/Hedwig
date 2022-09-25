@@ -1,14 +1,13 @@
-import argparse
-from datetime import datetime
 import json
 import os
 import re
 import time
 from urllib.request import urlopen
-from urllib.error import HTTPError
+
 import bs4
-import pandas as pd
+
 from get_greads_links import time_took
+
 
 @time_took
 def get_all_lists(soup):

@@ -4,30 +4,10 @@ from itertools import cycle
 
 import nextcord
 import pymongo
-import jedi
-
 from nextcord.ext import tasks
 from table2ascii import table2ascii as t2a, PresetStyle
-import flask
 
 from Buddy_Reading import BuddyRead
-
-
-# from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.common.by import By
-
-# selenium chrome driver for emulating button-clicking
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--disable-dev-shm-usage")
-# chrome_options.add_argument("--no-sandbox")
-# chrome_options.add_experimental_option("detach", True)
-# s = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
-# driver = webdriver.Chrome(service=s, options=chrome_options)
-# # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
-# REPLIT_URL = os.environ['REPLIT_URL']
 
 intents = nextcord.Intents.default()
 client = nextcord.Client(intents=intents)
@@ -57,12 +37,6 @@ except Exception:
 async def change_status_to_default():
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching,
                                                             name='BR progress on Book Servers'))
-
-
-#
-# async def change_status_to_command(username):
-#     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening,
-#                                                             name=f"{username}'s command"))
 
 
 @tasks.loop(seconds=300)
@@ -160,8 +134,6 @@ async def on_message(message):
             brtable.append([user.name, brprogress_var])
             time.sleep(0.2)
 
-        # brtable.sort(key=lambda x: x[1], reverse=True)
-        # brtable = sorted(brtable, key = lambda x: x[1],reverse=True)
         output = t2a(header=["Username", "% Progress"], body=brtable, style=PresetStyle.thin_compact)
         await message.channel.send(f"```{output}```")
         await change_status_to_default()
@@ -198,78 +170,6 @@ async def on_message(message):
             embed.remove_field(0)  # start date
             msg = await message.channel.send("Is this the book you searched for?",
                                              embed=embed)
-
-
-    # if mess.startswith("!botm"):
-    #     l = mess.split(" ", 2)
-    #     gr_link = l[1]
-    #     discussion_date = l[2]
-    #     b = BOTM(gr_link)
-    #     b.setDetails()
-    #     e = nextcord.Embed(
-    #         title=b.botm["title"],
-    #         description=b.botm["description"],
-    #         color=nextcord.Colour.from_rgb(247, 31, 31),
-    #         url=gr_link
-    #     )
-    #     g = ",".join(b.botm["genres"])
-    #     e.set_author(name="BOOK OF THE MONTH",
-    #                     icon_url="https://cdn.discordapp.com/attachments/911854338803109929/933443876021235732/final_61c041e9b5e7ac0053eae0e3_541544-9.png")
-    #     e.add_field(name="Author", value=b.botm["author_name"], inline=True)
-    #     e.add_field(name="Rating", value=b.botm["rating"] + "⭐", inline=True)
-    #     e.add_field(name="Pages", value=str(b.botm["num_pages"]) + "🗐", inline=True)
-    #     e.add_field(name="Genres", value=g, inline=False)
-    #     e.add_field(name="Voice Chat Discussion On", value=discussion_date, inline=False)
-    #     e.set_thumbnail(url=b.botm["thumbnail"])
-    #     e.set_footer(text="Happy Reading!")
-    #
-    #     boo = await message.channel.send(
-    #         "<@&876495352277106759> Please react with :white_check_mark:  if you'd like to participate in the discussions. Discussion will take place in <#878288705587122186> channel.",
-    #         embed=e)
-    #     await boo.add_reaction("✅")
-    # if message.content.startswith("!help"):  # HELPPPPPP!!!
-    #     pass
-
-    # if message.content.startswith("!br del"):
-    #
-    #     await client.change_presence(
-    #         activity=nextcord.Activity(
-    #             type=nextcord.ActivityType.listening,
-    #             name=f"{message.author.name}'s command"))
-    #
-    #     search_query = {"_id": channel_id}
-    #     try:
-    #         brtable_dict = collection.find(search_query)[0]
-    #     except:
-    #         await message.channel.send("Buddy Read Data for this channel doesn't exist")
-    #         await change_status_to_default()
-    #         return
-    #
-    #     for user_id in brtable_dict["br-details"]:
-    #         user = await client.fetch_user(int(user_id))
-    #         if user.name == author_name:
-    #             brprogress_var = brtable_dict["br-details"][user_id]['BRprogress']
-    #             search_query = {f"br-details.{author_id_str}": f"[{user.name}, {brprogress_var}]" }  # Wrong Query. Need to work on this bit.
-    #             try:
-    #                 result = collection.delete(search_query)
-    #                 await message.channel.send(result)
-    #                 await message.channel.send("Your progress for this BR is deleted.")
-    #             except:
-    #                 await message.channel.send("You need to update progress first before deleting it.")
-    #                 await message.channel.send(hot_damn_gif)
-    #     await change_status_to_default()
-    #
-    # if message.content.startswith("!wake up mavayya"):
-    #     await message.channel.send("Mavayya: Lesthanlera oka 5 min aagaraa babu.. goppodivi ra babu!")
-    #     driver.get(REPLIT_URL)
-    #     print(driver.page_source)
-    #     run_button = driver.find_element(by=By.XPATH,
-    #                                      value='//*[@id="__next"]/div/main/div[2]/div/div/div[3]/div[1]/div/header/div[2]/div[3]/button/div/span')
-    #     run_button.click()
-    #     await message.channel.send("Mavayya oka 5 min lo lesthadu..")
-    #     time.sleep(600)
-    #     await message.channel.send("Mavayya lechado ledo check chey okasari..")
-    #     driver.quit()
 
 @client.event
 async def on_ready():
