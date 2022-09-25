@@ -8,7 +8,10 @@ setuptools==60.9.3
 table2ascii==0.2.0
 wheel==0.37.1
 pymongo~=4.1.0
-jedi
-flask
+jedi~=0.18.1
+flask~=2.1.1
 dnspython
 selenium
+beautifulsoup4~=4.11.1
+pandas~=1.4.4
+Levenshtein~=0.20.3
