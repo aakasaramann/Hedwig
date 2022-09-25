@@ -106,6 +106,9 @@ async def on_message(message):
         await message.channel.send(f"{author_name}'s progress for this buddy-read is set to {progress_msg}%")
         await change_status_to_default()
 
+    mess = message.content
+    username = message.author
+
     #
     if message.content.startswith("!br status"):
         await client.change_presence(
@@ -138,13 +141,8 @@ async def on_message(message):
         await message.channel.send(f"```{output}```")
         await change_status_to_default()
 
-
-
-    mess = message.content
-    username = message.author
-
     # Searches for the book on goodreads and sends an embed message
-    if mess.strip(" \n").lower().startswith("!b"):
+    elif mess.strip(" \n").lower().startswith("!b"):
         mess = mess.strip(" \n").lower()
         try:
             temp = eval(BuddyRead(mess.strip(), username)())
