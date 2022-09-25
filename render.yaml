@@ -8,9 +8,4 @@ services:
     dockerfilePath: Dockerfile.render
     plan: free # optional; defaults to starter
     numInstances: 1
-    envVars:
-      - key: token # Imported from Heroku app
-        value: OTI3MTkxNTU2ODkxNTA0Njkx.YdGobQ.M6B8HiGsINLt0-OqoQm6FuBRMc8
-      - key: uri # Imported from Heroku app
-        value: mongodb+srv://telugodni:it3y5fw0pD5bhiMr@cluster0.tr5az.mongodb.net/HedwigDB?retryWrites&#x3D;true&amp;w&#x3D;majority
 
