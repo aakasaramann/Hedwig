@@ -8,4 +8,12 @@ services:
     dockerfilePath: Dockerfile.render
     plan: free # optional; defaults to starter
     numInstances: 1
+      
+      # A background worker that consumes a queue
+                    - type: worker
+                    name: queue
+                    env: docker
+                    dockerfilePath: ./sub/Dockerfile # optional
+                    dockerContext: ./sub/src # optional
+                    branch: queue # optional
 
