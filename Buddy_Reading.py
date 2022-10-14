@@ -99,8 +99,7 @@ class BuddyRead(object):
             eol = self.buddy_read_req[x:].find("\n")
             if eol == -1:
                 return self.buddy_read_req[x:].split(":", 1)[-1].strip()
-            else:
-                return self.buddy_read_req[x:x + eol].split(":", 1)[-1].strip()
+            return self.buddy_read_req[x:x + eol].split(":", 1)[-1].strip()
         return ""
 
     def get_author_input(self):
