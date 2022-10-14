@@ -84,8 +84,7 @@ def get_series_name(soup):
     if series:
         series_name = re.search(r'\((.*?)\)', series.text).group(1)
         return series_name
-    else:
-        return ""
+    return ""
 
 
 @time_took
@@ -94,8 +93,7 @@ def get_series_uri(soup):
     if series:
         series_uri = series.get("href")
         return series_uri
-    else:
-        return ""
+    return ""
 
 
 @time_took
@@ -143,8 +141,7 @@ def get_year_first_published(soup):
     if year_first_published:
         year_first_published = year_first_published.string
         return re.search('([0-9]{3,4})', year_first_published).group(1)
-    else:
-        return ''
+    return ''
 
 
 @time_took
