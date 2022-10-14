@@ -79,7 +79,7 @@ class BuddyReadFormatter:
 """
 
     def __call__(self, **kwargs):
-        for key in self.Kwargs.keys():
+        for key in self.Kwargs:
             kwargs[key] = kwargs.get(key, "") or self.Kwargs.get(key, "")
         return self.Template.format(**kwargs)
 
