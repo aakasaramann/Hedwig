@@ -1,3 +1,4 @@
+import ast
 import os
 import time
 from itertools import cycle
@@ -143,7 +144,7 @@ async def on_message(message):
     elif mess.strip(" \n").lower().startswith("!book"):
         mess = mess.strip(" \n").lower()
         try:
-            temp = eval(BuddyRead(mess.strip(), username)())
+            temp = ast.literal_eval(BuddyRead(mess.strip(), username)())
             print(temp)
             embed = nextcord.Embed.from_dict(temp["embeds"][-1])
         except Exception as exc_:
