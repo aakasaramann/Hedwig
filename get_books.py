@@ -184,6 +184,7 @@ def get_author_url(soup):
     except:
         return ""
 
+
 @time_took
 def scrape_book(book_id):
     if not 'https://www.goodreads.com/book/show/' in book_id:
@@ -201,8 +202,8 @@ def scrape_book(book_id):
         'genres': get_genres(soup),
         'average_rating': soup.find('span', {'itemprop': 'ratingValue'}).text.strip(),
         'description': get_description(soup),
-        "book_thumbnail" : get_book_thumbail(soup),
-        "author_thumbnail" : get_author_thumbnail(soup),
+        "book_thumbnail": get_book_thumbail(soup),
+        "author_thumbnail": get_author_thumbnail(soup),
         "author_url": get_author_url(soup),
     }
 
@@ -212,11 +213,11 @@ def condense_books(books_directory_path):
 
     for file_name in os.listdir(books_directory_path):
         if file_name.endswith('.json') and not file_name.startswith('.') and file_name != "all_books.json":
-            _book = json.load(open(books_directory_path + '/' + file_name, 'r'))  # , encoding='utf-8', errors='ignore'))
+            _book = json.load(
+                open(books_directory_path + '/' + file_name, 'r'))  # , encoding='utf-8', errors='ignore'))
             books.append(_book)
 
     return books
-
 
 # def main():
 #     start_time = datetime.now()

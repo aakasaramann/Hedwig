@@ -1,8 +1,9 @@
-from urllib.request import urlopen
-import bs4
-import Levenshtein as lev
-from functools import wraps
 import time
+from functools import wraps
+from urllib.request import urlopen
+
+import Levenshtein as lev
+import bs4
 
 
 def time_took(f):
@@ -11,6 +12,7 @@ def time_took(f):
     :param f:
     :return:
     """
+
     @wraps(f)
     def func(*args, **kwargs):
         st = time.time()
@@ -28,7 +30,10 @@ def match_score(entry, title, author):
     :param title:
     :param author:
     """
-    # typical s_ looks like ['The Scorch Trials (The Maze Runner, #2)', 'by', 'James Dashner (Goodreads Author)', '3.90 avg rating — 507,459 ratings', '—', 'published', '2010', '—', '142 editions', 'Want to Read', 'saving…', 'Want to Read', 'Currently Reading', 'Read', 'Error rating book. Refresh and try again.', 'Rate this book', 'Clear rating', '1 of 5 stars2 of 5 stars3 of 5 stars4 of 5 stars5 of 5 stars', 'Get a copy']
+    # typical s_ looks like ['The Scorch Trials (The Maze Runner, #2)', 'by', 'James Dashner (Goodreads Author)',
+    # '3.90 avg rating — 507,459 ratings', '—', 'published', '2010', '—', '142 editions', 'Want to Read', 'saving…',
+    # 'Want to Read', 'Currently Reading', 'Read', 'Error rating book. Refresh and try again.', 'Rate this book',
+    # 'Clear rating', '1 of 5 stars2 of 5 stars3 of 5 stars4 of 5 stars5 of 5 stars', 'Get a copy']
     s_ = [x.strip("\n ") for x in entry.text.strip("\n ").split("\n") if x.strip("\n ")]
     # s_[0] is title , s_[2] is author
     if len(s_) < 3:

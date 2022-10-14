@@ -18,10 +18,8 @@ send_gif = f"{tenor_str}harry-potter-hedwig-4privet-drive-deathly-hallows-battle
 receive_gif = f"{tenor_str}youve-got-mail-mail-get-the-mail-package-what-a-hoot-gif-18029581"
 hot_damn_gif = f"{tenor_str}captain-ray-holt-hot-damn-hot-damn-brooklyn-nine-nine-gif-12390401"
 
-
 # status variable changing status of discord bot
 status = cycle(['with Python', 'JetHub'])
-
 
 # MongoDB server details
 conn_str = os.environ['uri']
@@ -116,11 +114,11 @@ async def on_message(message):
                 type=nextcord.ActivityType.listening,
                 name=f"{message.author.name}'s command"))
 
-        msg = await message.channel.send(send_gif)
-        time.sleep(5)
-        await msg.edit(receive_gif)
-        time.sleep(3)
-        await msg.delete()
+        # msg = await message.channel.send(send_gif)
+        # time.sleep(5)
+        # await msg.edit(receive_gif)
+        # time.sleep(3)
+        # await msg.delete()
 
         search_query = {"_id": channel_id}
         try:
@@ -142,7 +140,7 @@ async def on_message(message):
         await change_status_to_default()
 
     # Searches for the book on goodreads and sends an embed message
-    elif mess.strip(" \n").lower().startswith("!b"):
+    elif mess.strip(" \n").lower().startswith("!book"):
         mess = mess.strip(" \n").lower()
         try:
             temp = eval(BuddyRead(mess.strip(), username)())
@@ -168,6 +166,7 @@ async def on_message(message):
             embed.remove_field(0)  # start date
             msg = await message.channel.send("Is this the book you searched for?",
                                              embed=embed)
+
 
 @client.event
 async def on_ready():
