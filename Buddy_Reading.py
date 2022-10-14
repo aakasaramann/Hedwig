@@ -22,7 +22,7 @@ class BuddyReadFormatter:
         thumbnail="",
     )
 
-    #embed template
+    # embed template
     Template = """{{
   "username": "{bread_host}",
   "avatar_url": "{avatar_url}",
@@ -85,6 +85,7 @@ class BuddyReadFormatter:
 
 
 class BuddyRead(object):
+
     def __init__(self, buddy_read_req, requester="Anonymous", **kwargs):
         self.buddy_read_req = buddy_read_req
         self.requester = requester
@@ -110,7 +111,9 @@ class BuddyRead(object):
         return self.gread_details["author"]
 
     def get_title_input(self):
-        vars_ = ["book name", "bookname", "book title", "booktitle", "title", "book"]
+        vars_ = [
+            "book name", "bookname", "book title", "booktitle", "title", "book"
+        ]
         return self.get_value_from_key(vars_)
 
     def get_title(self):
@@ -132,10 +135,20 @@ class BuddyRead(object):
         return self.get_value_from_key(vars_)
 
     def get_greads_link(self):
-        vars_ = ["goodreads url", "goodreadsurl", "goodreadslink", "goodreadslink", "GR url", "GRurl", "goodreads"]
+        vars_ = [
+            "goodreads url",
+            "goodreadsurl",
+            "goodreadslink",
+            "goodreadslink",
+            "GR url",
+            "GRurl",
+            "goodreads",
+        ]
         link = self.get_value_from_key(vars_)
         if not link:
-            link = get_greads_links([[self.get_title_input(), self.get_author_input()]])[-1][-1]
+            link = get_greads_links(
+                [[self.get_title_input(),
+                  self.get_author_input()]])[-1][-1]
         self.get_gread_details(link)
         return link
 
@@ -198,6 +211,9 @@ Start Date: Dec 12, 2021
 End Date: Jan 10,2021"""
     br1 = """Book name: Chaso Kathalu
 """
-    br2 = br1 + r"\n Author Name: Niall Kishtainy \n Goodreads url : https://www.goodreads.com/book/show/32622193-a-little-history-of-economics \n Genres: Economics, History, Non-fiction \n Synopsis: What causes poverty? Are economic crises inevitable under capitalism? Is government intervention in an economy a helpful approach or a disastrous idea? The answers to such basic economic questions matter to everyone, yet the unfamiliar jargon and math of economics can seem daunting. This clear, accessible, and even humorous book is ideal for young readers new to economics and for all readers who seek a better understanding of the full sweep of economic history and ideas."
+    br2 = (
+        br1 +
+        r"\n Author Name: Niall Kishtainy \n Goodreads url : https://www.goodreads.com/book/show/32622193-a-little-history-of-economics \n Genres: Economics, History, Non-fiction \n Synopsis: What causes poverty? Are economic crises inevitable under capitalism? Is government intervention in an economy a helpful approach or a disastrous idea? The answers to such basic economic questions matter to everyone, yet the unfamiliar jargon and math of economics can seem daunting. This clear, accessible, and even humorous book is ideal for young readers new to economics and for all readers who seek a better understanding of the full sweep of economic history and ideas."
+    )
     # print(BuddyRead(br2, "Bippity Boppity")())
     print(BuddyRead(br1, "Bobbity Boppity")())
