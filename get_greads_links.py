@@ -46,7 +46,8 @@ def get_greads_links(books, top_result=True):
         source = urlopen("https://www.goodreads.com/search?q={}".format("+".join(book[0].split())))
         soup = bs4.BeautifulSoup(source, 'html.parser')
         tables_ = soup.findAll("table", {"class": "tableList"})
-        assert len(tables_) == 1
+        if len(tables_) != 1:
+            raise AssertionError
         if top_result:
             match, i = None, 0
             while (match is None) and i < len(tables_[0].contents):
