@@ -4,9 +4,9 @@ import time
 from itertools import cycle
 
 import discord
-from discord import app_commands
 import pymongo
-from discord.ext import tasks, commands
+from discord import app_commands
+from discord.ext import commands, tasks
 from table2ascii import PresetStyle
 from table2ascii import table2ascii as t2a
 
@@ -44,9 +44,9 @@ except Exception:
 
 
 async def change_status_to_default():
-    await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                  name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
 
 
 @tasks.loop(seconds=300)
@@ -175,7 +175,7 @@ async def on_message(message):
                 "Sorry, couldn't process Book request. Exception: {}".format(
                     exc_))
         if mess.startswith("!br") and (message.channel.id in [
-            900145851844935681, 911854338803109929, 876497506849144892
+                900145851844935681, 911854338803109929, 876497506849144892
         ]):
             try:
                 msg = await message.channel.send(temp["content"], embed=embed)
@@ -191,9 +191,12 @@ async def on_message(message):
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
+
 @bot.tree.command(name="hello")
 async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hello {interaction.user.mention}!", ephemeral=True)
+    await interaction.response.send_message(
+        f"Hello {interaction.user.mention}!", ephemeral=True)
+
 
 @client.event
 async def on_ready():
@@ -201,9 +204,9 @@ async def on_ready():
     change_status.start()
     await client.get_channel(931066517360115753).send(
         "Beep. Boop. Beep. I am online. :owl:  *hoots*")
-    await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                  name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
 
 
 my_secret = os.environ["token"]
