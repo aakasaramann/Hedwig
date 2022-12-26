@@ -1,0 +1,53 @@
+{
+    "name":"The Shawshank Redemption",
+    "durationInMinutes":"142",
+    "imdbRating":"9.3"
+}
+
+{
+    "name":"The Godfather",
+    "durationInMinutes":"175",
+    "imdbRating":"9.2"
+}
+
+{
+    "name":"The Dark Knight",
+    "durationInMinutes":"152",
+    "imdbRating":"9.0"
+}
+
+{
+    "name":"The Godfather Part II",
+    "durationInMinutes":"202",
+    "imdbRating":"9.0"
+}
+
+{
+    "name":"12 Angry Men",
+    "durationInMinutes":"96",
+    "imdbRating":"9.0"
+}
+
+{
+    "name":"Schindler's List",
+    "durationInMinutes":"195",
+    "imdbRating":"9.0"
+}
+
+{
+    "name":"The Lord of the Rings: The Return of the King",
+    "durationInMinutes":"201",
+    "imdbRating":"9.0"
+}
+
+{
+    "name":"The Good, the Bad and the Ugly",
+    "durationInMinutes":"178",
+    "imdbRating":"8.8"
+}
+
+{
+    "name":"Forrest Gump",
+    "durationInMinutes":"142",
+    "imdbRating":"8.8"
+}

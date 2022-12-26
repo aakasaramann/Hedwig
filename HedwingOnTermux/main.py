@@ -1,21 +1,17 @@
 import ast
-import os
 import time
 from itertools import cycle
 
-import discord
-from discord import app_commands
+import nextcord
 import pymongo
-from discord.ext import tasks, commands
+from nextcord.ext import tasks
 from table2ascii import PresetStyle
 from table2ascii import table2ascii as t2a
 
 from Buddy_Reading import BuddyRead
 
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
-
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+intents = nextcord.Intents.default()
+client = nextcord.Client(intents=intents)
 
 # gif variables
 tenor_str = "https://tenor.com/view/"
@@ -31,7 +27,7 @@ hot_damn_gif = (
 status = cycle(["with Python", "JetHub"])
 
 # MongoDB server details
-conn_str = os.environ["uri"]
+conn_str = "mongodb+srv://telugodni:it3y5fw0pD5bhiMr@cluster0.tr5az.mongodb.net/HedwigDB?retryWrites=true&w=majority"
 cluster = pymongo.MongoClient(
     conn_str,
     serverSelectionTimeoutMS=5000)  # set a 5-second connection timeout
@@ -45,13 +41,13 @@ except Exception:
 
 async def change_status_to_default():
     await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                  name="BR progress on Book Servers"))
+        activity=nextcord.Activity(type=nextcord.ActivityType.watching,
+                                   name="BR progress on Book Servers"))
 
 
 @tasks.loop(seconds=300)
 async def change_status():
-    await client.change_presence(activity=discord.Game(next(status)))
+    await client.change_presence(activity=nextcord.Game(next(status)))
 
 
 @client.event
@@ -65,8 +61,8 @@ async def on_message(message):
         return
 
     if message.content.startswith("!br update "):
-        await client.change_presence(activity=discord.Activity(
-            type=discord.ActivityType.listening,
+        await client.change_presence(activity=nextcord.Activity(
+            type=nextcord.ActivityType.listening,
             name=f"{message.author.name}'s command",
         ))
 
@@ -128,8 +124,8 @@ async def on_message(message):
 
     #
     if message.content.startswith("!br status"):
-        await client.change_presence(activity=discord.Activity(
-            type=discord.ActivityType.listening,
+        await client.change_presence(activity=nextcord.Activity(
+            type=nextcord.ActivityType.listening,
             name=f"{message.author.name}'s command",
         ))
 
@@ -169,13 +165,13 @@ async def on_message(message):
         try:
             temp = ast.literal_eval(BuddyRead(mess.strip(), username)())
             print(temp)
-            embed = discord.Embed.from_dict(temp["embeds"][-1])
+            embed = nextcord.Embed.from_dict(temp["embeds"][-1])
         except Exception as exc_:
             await message.channel.send(
                 "Sorry, couldn't process Book request. Exception: {}".format(
                     exc_))
         if mess.startswith("!br") and (message.channel.id in [
-            900145851844935681, 911854338803109929, 876497506849144892
+                900145851844935681, 911854338803109929, 876497506849144892
         ]):
             try:
                 msg = await message.channel.send(temp["content"], embed=embed)
@@ -191,9 +187,6 @@ async def on_message(message):
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
-@bot.tree.command(name="hello")
-async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hello {interaction.user.mention}!", ephemeral=True)
 
 @client.event
 async def on_ready():
@@ -202,9 +195,9 @@ async def on_ready():
     await client.get_channel(931066517360115753).send(
         "Beep. Boop. Beep. I am online. :owl:  *hoots*")
     await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                  name="BR progress on Book Servers"))
+        activity=nextcord.Activity(type=nextcord.ActivityType.watching,
+                                   name="BR progress on Book Servers"))
 
 
-my_secret = os.environ["token"]
+my_secret = "OTI3MTkxNTU2ODkxNTA0Njkx.GYG4j2.iU6-biYPa7ViOIb7stOXr9PUYFW22-lAewq1WQ"
 client.run(my_secret)

@@ -1,0 +1,41 @@
+{
+    "name":"Robert Zemeckis",
+    "numberOfMovies":"31",
+    "imdbRating":"7.2"
+}
+
+{
+    "name":"Sergio Leone",
+    "numberOfMovies":"9",
+    "imdbRating":"7.7"
+}
+
+{
+    "name":"Peter Jackson",
+    "numberOfMovies":"28",
+    "imdbRating":"7.6"
+}
+
+{
+    "name":"Steven Spielberg",
+    "numberOfMovies":"59",
+    "imdbRating":"7.4"
+}
+
+{
+    "name":"Sidney Lumet",
+    "numberOfMovies":"75",
+    "imdbRating":"6.8"
+}
+
+{
+    "name":"Francis Ford Coppola",
+    "numberOfMovies":"37",
+    "imdbRating":"6.5"
+}
+
+{
+    "name":"Christopher Nolan",
+    "numberOfMovies":"17",
+    "imdbRating":"8.3"
+}
