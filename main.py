@@ -3,16 +3,16 @@ import os
 import time
 from itertools import cycle
 
-import nextcord
+import discord
 import pymongo
-from nextcord.ext import tasks
+from discord import app_commands
+from discord.ext import commands, tasks
 from table2ascii import PresetStyle
 from table2ascii import table2ascii as t2a
 
 from Buddy_Reading import BuddyRead
 
-intents = nextcord.Intents.default()
-client = nextcord.Client(intents=intents)
+client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 # gif variables
 tenor_str = "https://tenor.com/view/"
@@ -41,14 +41,14 @@ except Exception:
 
 
 async def change_status_to_default():
-    await client.change_presence(
-        activity=nextcord.Activity(type=nextcord.ActivityType.watching,
-                                   name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
 
 
 @tasks.loop(seconds=300)
 async def change_status():
-    await client.change_presence(activity=nextcord.Game(next(status)))
+    await client.change_presence(activity=discord.Game(next(status)))
 
 
 @client.event
@@ -62,8 +62,8 @@ async def on_message(message):
         return
 
     if message.content.startswith("!br update "):
-        await client.change_presence(activity=nextcord.Activity(
-            type=nextcord.ActivityType.listening,
+        await client.change_presence(activity=discord.Activity(
+            type=discord.ActivityType.listening,
             name=f"{message.author.name}'s command",
         ))
 
@@ -125,8 +125,8 @@ async def on_message(message):
 
     #
     if message.content.startswith("!br status"):
-        await client.change_presence(activity=nextcord.Activity(
-            type=nextcord.ActivityType.listening,
+        await client.change_presence(activity=discord.Activity(
+            type=discord.ActivityType.listening,
             name=f"{message.author.name}'s command",
         ))
 
@@ -166,7 +166,7 @@ async def on_message(message):
         try:
             temp = ast.literal_eval(BuddyRead(mess.strip(), username)())
             print(temp)
-            embed = nextcord.Embed.from_dict(temp["embeds"][-1])
+            embed = discord.Embed.from_dict(temp["embeds"][-1])
         except Exception as exc_:
             await message.channel.send(
                 "Sorry, couldn't process Book request. Exception: {}".format(
@@ -195,9 +195,20 @@ async def on_ready():
     change_status.start()
     await client.get_channel(931066517360115753).send(
         "Beep. Boop. Beep. I am online. :owl:  *hoots*")
-    await client.change_presence(
-        activity=nextcord.Activity(type=nextcord.ActivityType.watching,
-                                   name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
+    try:
+        synced = await client.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
+
+
+@client.tree.command(name="hello")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message(f"Hey,{interaction.user.mention}!",
+                                            ephemeral=True)
 
 
 my_secret = os.environ["token"]
