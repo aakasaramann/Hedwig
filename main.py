@@ -4,9 +4,9 @@ import time
 from itertools import cycle
 
 import discord
-from discord import app_commands
 import pymongo
-from discord.ext import tasks, commands
+from discord import app_commands
+from discord.ext import commands, tasks
 from table2ascii import PresetStyle
 from table2ascii import table2ascii as t2a
 
@@ -41,9 +41,9 @@ except Exception:
 
 
 async def change_status_to_default():
-    await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                   name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
 
 
 @tasks.loop(seconds=300)
@@ -195,18 +195,21 @@ async def on_ready():
     change_status.start()
     await client.get_channel(931066517360115753).send(
         "Beep. Boop. Beep. I am online. :owl:  *hoots*")
-    await client.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching,
-                                   name="BR progress on Book Servers"))
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name="BR progress on Book Servers")
+    )
     try:
         synced = await client.tree.sync()
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
 
+
 @client.tree.command(name="hello")
 async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hey,{interaction.user.mention}!", ephemeral=True)
+    await interaction.response.send_message(f"Hey,{interaction.user.mention}!",
+                                            ephemeral=True)
+
 
 my_secret = os.environ["token"]
 client.run(my_secret)
