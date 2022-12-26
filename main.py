@@ -5,7 +5,6 @@ from itertools import cycle
 
 import discord
 import pymongo
-from discord import app_commands
 from discord.ext import commands, tasks
 from table2ascii import PresetStyle
 from table2ascii import table2ascii as t2a
