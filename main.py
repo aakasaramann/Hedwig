@@ -1,5 +1,6 @@
 import ast
 import os
+import re
 import time
 from itertools import cycle
 
@@ -171,7 +172,7 @@ async def on_message(message):
                 "Sorry, couldn't process Book request. Exception: {}".format(
                     exc_))
         if mess.startswith("!br") and (message.channel.id in [
-                900145851844935681, 911854338803109929, 876497506849144892
+            900145851844935681, 911854338803109929, 876497506849144892
         ]):
             try:
                 msg = await message.channel.send(temp["content"], embed=embed)
@@ -186,6 +187,40 @@ async def on_message(message):
             embed.remove_field(0)  # start date
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
+
+    if message.content.startswith('!get_reactions'):
+        # Parse the command and get the message link
+        message_link = message.content.split(' ')[1]
+
+        # Parse the message link
+        pattern = r'https?://(www\.)?discord(app)?\.com/channels/(\d+)/(\d+)/(\d+)'
+        match = re.match(pattern, message_link)
+        if not match:
+            await message.channel.send("Invalid message link.")
+            return
+
+        # Extract server ID, channel ID, and message ID
+        guild_id, channel_id, message_id = int(match.group(3)), int(match.group(4)), int(match.group(5))
+
+        # Fetch the message object
+        guild = client.get_guild(guild_id)
+        channel = guild.get_channel(channel_id)
+        target_message = await channel.fetch_message(message_id)
+
+        # Iterate through reactions and fetch users
+        users_who_reacted = []
+        for reaction in target_message.reactions:
+            async for user in reaction.users():
+                users_who_reacted.append(user.name)
+
+        # Send the list of users who reacted
+        if users_who_reacted:
+            await message.channel.send(', '.join(users_who_reacted))
+        else:
+            await message.channel.send("No users reacted to this message.")
+
+        # Process other bot commands
+    await client.process_commands(message)
 
 
 @client.event
