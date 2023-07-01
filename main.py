@@ -155,7 +155,7 @@ async def on_message(message):
                 "Sorry, couldn't process Book request. Exception: {}".format(
                     exc_))
         if mess.startswith("!br") and (message.channel.id in [
-            900145851844935681, 911854338803109929, 876497506849144892
+                900145851844935681, 911854338803109929, 876497506849144892
         ]):
             try:
                 msg = await message.channel.send(temp["content"], embed=embed)
@@ -171,26 +171,30 @@ async def on_message(message):
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
-    if message.content.startswith('!announce_br'):
+    if message.content.startswith("!announce_br"):
         # Parse the command and get the message link
-        message_link = message.content.split(' ')[1]
+        message_link = message.content.split(" ")[1]
         # channel_id = message.content.split(' ')[2]
         # I need the rest of the string not just the string till next space
 
-        announcement_message = " ".join(message.content.split(' ')[2:])
+        announcement_message = " ".join(message.content.split(" ")[2:])
 
         if announcement_message in ["None", "none", "NONE", "n", "N"]:
             announcement_message = ""
 
         # Parse the message link
-        pattern = r'https?://(www\.)?discord(app)?\.com/channels/(\d+)/(\d+)/(\d+)'
+        pattern = r"https?://(www\.)?discord(app)?\.com/channels/(\d+)/(\d+)/(\d+)"
         match = re.match(pattern, message_link)
         if not match:
             await message.channel.send("Invalid message link.")
             return
 
         # Extract server ID, channel ID, and message ID
-        guild_id, channel_id, message_id = int(match.group(3)), int(match.group(4)), int(match.group(5))
+        guild_id, channel_id, message_id = (
+            int(match.group(3)),
+            int(match.group(4)),
+            int(match.group(5)),
+        )
 
         # Fetch the message object
         channel = client.get_channel(channel_id)
@@ -204,7 +208,8 @@ async def on_message(message):
 
         # Send the list of users who reacted
         if users_who_reacted:
-            await message.channel.send((', '.join(users_who_reacted)) + " " + announcement_message)
+            await message.channel.send((", ".join(users_who_reacted)) + " " +
+                                       announcement_message)
         else:
             await message.channel.send("No users reacted to this message.")
 
@@ -229,6 +234,7 @@ async def on_ready():
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey,{interaction.user.mention}!",
                                             ephemeral=True)
+
 
 my_secret = os.environ["token"]
 client.run(my_secret)
