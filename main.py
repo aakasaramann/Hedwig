@@ -14,18 +14,8 @@ from Buddy_Reading import BuddyRead
 
 client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-# gif variables
-tenor_str = "https://tenor.com/view/"
-send_gif = f"{tenor_str}harry-potter-hedwig-4privet-drive-deathly-hallows-battle-of-the-seven-potters-gif-14134385"
-receive_gif = (
-    f"{tenor_str}youve-got-mail-mail-get-the-mail-package-what-a-hoot-gif-18029581"
-)
-hot_damn_gif = (
-    f"{tenor_str}captain-ray-holt-hot-damn-hot-damn-brooklyn-nine-nine-gif-12390401"
-)
-
 # status variable changing status of discord bot
-status = cycle(["with Python", "JetHub"])
+status = cycle(["Announcements", "BR Progress", "Book Recommendations"])
 
 # MongoDB server details
 conn_str = os.environ["uri"]
@@ -123,18 +113,11 @@ async def on_message(message):
     mess = message.content
     username = message.author
 
-    #
     if message.content.startswith("!br status"):
         await client.change_presence(activity=discord.Activity(
             type=discord.ActivityType.listening,
             name=f"{message.author.name}'s command",
         ))
-
-        # msg = await message.channel.send(send_gif)
-        # time.sleep(5)
-        # await msg.edit(receive_gif)
-        # time.sleep(3)
-        # await msg.delete()
 
         search_query = {"_id": channel_id}
         try:
@@ -188,9 +171,16 @@ async def on_message(message):
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
-    if message.content.startswith('!get_reactions'):
+    if message.content.startswith('!announce_br'):
         # Parse the command and get the message link
         message_link = message.content.split(' ')[1]
+        # channel_id = message.content.split(' ')[2]
+        # I need the rest of the string not just the string till next space
+
+        announcement_message = " ".join(message.content.split(' ')[2:])
+
+        if announcement_message in ["None", "none", "NONE", "n", "N"]:
+            announcement_message = ""
 
         # Parse the message link
         pattern = r'https?://(www\.)?discord(app)?\.com/channels/(\d+)/(\d+)/(\d+)'
@@ -203,24 +193,20 @@ async def on_message(message):
         guild_id, channel_id, message_id = int(match.group(3)), int(match.group(4)), int(match.group(5))
 
         # Fetch the message object
-        guild = client.get_guild(guild_id)
-        channel = guild.get_channel(channel_id)
+        channel = client.get_channel(channel_id)
         target_message = await channel.fetch_message(message_id)
 
         # Iterate through reactions and fetch users
         users_who_reacted = []
         for reaction in target_message.reactions:
             async for user in reaction.users():
-                users_who_reacted.append(user.name)
+                users_who_reacted.append("<@" + str(user.id) + ">")
 
         # Send the list of users who reacted
         if users_who_reacted:
-            await message.channel.send(', '.join(users_who_reacted))
+            await message.channel.send((', '.join(users_who_reacted)) + " " + announcement_message)
         else:
             await message.channel.send("No users reacted to this message.")
-
-        # Process other bot commands
-    await client.process_commands(message)
 
 
 @client.event
@@ -243,7 +229,6 @@ async def on_ready():
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey,{interaction.user.mention}!",
                                             ephemeral=True)
-
 
 my_secret = os.environ["token"]
 client.run(my_secret)
