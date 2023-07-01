@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="dataSourceStorageLocal" created-in="PY-223.8836.43">
+=======
+  <component name="dataSourceStorageLocal" created-in="PY-222.4345.23">
+>>>>>>> origin/master
     <data-source name="HedwigDB@cluster0.tr5az.mongodb.net" uuid="8ca66694-4f12-4e6a-b286-349a21e1731e">
       <database-info product="Mongo DB" version="5.0.11" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.15" dbms="MONGO" exact-version="5.0.11" exact-driver-version="1.15" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
