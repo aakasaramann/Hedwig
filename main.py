@@ -184,7 +184,7 @@ async def on_message(message):
         # Now you can handle the command... send an ephermal message
             await message.channel.send("You don't have the required role to use this command.", delete_after=30)
             return
-        await message.channel.send("You can use the command.")
+        # await message.channel.send("You can use the command.")
         # Parse the command and get the message link
         message_link = message.content.split(' ')[1]
         # channel_id = message.content.split(' ')[2]
