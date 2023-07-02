@@ -48,7 +48,10 @@ async def on_message(message):
     author_id = message.author.id
     author_id_str = str(author_id)
 
-    if message.author == client.user:  # For ignoring bots messages
+    if message.author == client.user:  #For ignoring its own messages
+        return
+
+    if message.author.bot: #Ignores bots messages
         return
 
     if message.content.startswith("!br update "):
@@ -171,7 +174,17 @@ async def on_message(message):
             msg = await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
-    if message.content.startswith('!announce_br'):
+    if message.content.startswith('$announce_br'):
+
+        required_role_one = discord.utils.get(message.guild.roles, name="BR Leader")
+        required_role_two = discord.utils.get(message.guild.roles, name="Staff")
+
+        # Check if the user has the role
+        if required_role_one not in message.author.roles and required_role_two not in message.author.roles and message.author.id != 821036244305707028:
+        # Now you can handle the command... send an ephermal message
+            await message.channel.send("You don't have the required role to use this command.", delete_after=30)
+            return
+        await message.channel.send("You can use the command.")
         # Parse the command and get the message link
         message_link = message.content.split(' ')[1]
         # channel_id = message.content.split(' ')[2]
