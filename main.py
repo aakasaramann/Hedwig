@@ -12,7 +12,7 @@ from table2ascii import table2ascii as t2a
 
 from Buddy_Reading import BuddyRead
 
-client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+client = commands.Bot(command_prefix="$", intents=discord.Intents.all())
 
 # status variable changing status of discord bot
 status = cycle(["Announcements", "BR Progress", "Book Recommendations"])
@@ -48,13 +48,13 @@ async def on_message(message):
     author_id = message.author.id
     author_id_str = str(author_id)
 
-    if message.author == client.user:  #For ignoring its own messages
+    if message.author == client.user:  # For ignoring its own messages
         return
 
-    if message.author.bot: #Ignores bots messages
+    if message.author.bot:  # Ignores bots messages
         return
 
-    if message.content.startswith("!br update "):
+    if message.content.startswith("$br update "):
         await client.change_presence(activity=discord.Activity(
             type=discord.ActivityType.listening,
             name=f"{message.author.name}'s command",
@@ -116,7 +116,7 @@ async def on_message(message):
     mess = message.content
     username = message.author
 
-    if message.content.startswith("!br status"):
+    if message.content.startswith("$br status"):
         await client.change_presence(activity=discord.Activity(
             type=discord.ActivityType.listening,
             name=f"{message.author.name}'s command",
@@ -147,7 +147,7 @@ async def on_message(message):
         await change_status_to_default()
 
     # Searches for the book on goodreads and sends an embed message
-    elif mess.strip(" \n").lower().startswith("!book"):
+    elif mess.strip(" \n").lower().startswith("$book"):
         mess = mess.strip(" \n").lower()
         try:
             temp = ast.literal_eval(BuddyRead(mess.strip(), username)())
@@ -157,7 +157,7 @@ async def on_message(message):
             await message.channel.send(
                 "Sorry, couldn't process Book request. Exception: {}".format(
                     exc_))
-        if mess.startswith("!br") and (message.channel.id in [
+        if mess.startswith("$br") and (message.channel.id in [
             900145851844935681, 911854338803109929, 876497506849144892
         ]):
             try:
@@ -171,7 +171,7 @@ async def on_message(message):
         else:
             embed.remove_field(1)  # end date
             embed.remove_field(0)  # start date
-            msg = await message.channel.send(
+            await message.channel.send(
                 "Is this the book you searched for?", embed=embed)
 
     if message.content.startswith('$announce_br'):
@@ -180,17 +180,15 @@ async def on_message(message):
         required_role_two = discord.utils.get(message.guild.roles, name="Staff")
 
         # Check if the user has the role
-        if required_role_one not in message.author.roles and required_role_two not in message.author.roles and message.author.id != 821036244305707028:
-        # Now you can handle the command... send an ephermal message
+        if required_role_one not in message.author.roles \
+                and required_role_two not in message.author.roles \
+                and message.author.id != 821036244305707028:
             await message.channel.send("You don't have the required role to use this command.", delete_after=30)
             return
-        # await message.channel.send("You can use the command.")
-        # Parse the command and get the message link
-        message_link = message.content.split(' ')[1]
-        # channel_id = message.content.split(' ')[2]
-        # I need the rest of the string not just the string till next space
 
-        announcement_message = " ".join(message.content.split(' ')[2:])
+        message_link = message.content.split(' ')[1]
+
+        announcement_message = " ".join(message.content.split()[2:])
 
         if announcement_message in ["None", "none", "NONE", "n", "N"]:
             announcement_message = ""
@@ -212,8 +210,9 @@ async def on_message(message):
         # Iterate through reactions and fetch users
         users_who_reacted = []
         for reaction in target_message.reactions:
-            async for user in reaction.users():
-                users_who_reacted.append("<@" + str(user.id) + ">")
+            if str(reaction.emoji) == "✅":
+                async for user in reaction.users():
+                    users_who_reacted.append("<@" + str(user.id) + ">")
 
         # Send the list of users who reacted
         if users_who_reacted:
@@ -242,6 +241,7 @@ async def on_ready():
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey,{interaction.user.mention}!",
                                             ephemeral=True)
+
 
 my_secret = os.environ["token"]
 client.run(my_secret)
